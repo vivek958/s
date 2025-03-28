@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBD Jatin</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff4444;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Background Elements */
+        .game-bg {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(45deg, #1a1a1a 0 10px, #2a2a2a 10px 20px);
+            animation: moveBg 20s linear infinite;
+            z-index: -1;
+        }
+        .emoji-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .emoji {
+            position: absolute;
+            font-size: 24px;
+            animation: float 8s infinite linear;
+            opacity: 0.3;
+        }
+
+        /* Birthday Card */
+        .card-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            transform-style: preserve-3d;
+            transition: all 1s ease-in-out;
+        }
+        .card-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/cream-paper.png'), #c62828;
+            transform-origin: left;
+            transition: all 1s ease-in-out;
+            border-radius: 10px 0 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .card-inside {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/cream-paper.png'), #fff;
+            transform: translateZ(-1px);
+            border-radius: 0 10px 10px 0;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card.open .card-cover {
+            transform: rotateY(-180deg);
+        }
+        .card.open .card-inside {
+            display: flex;
+        }
+
+        /* Cake */
+        .cake-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 1s;
+            z-index: 100;
+        }
+        .cake {
+            width: 150px;
+            height: 100px;
+            position: relative;
+        }
+        .cake-base {
+            width: 150px;
+            height: 60px;
+            background: #6b3e2e;
+            border-radius: 10px 10px 0 0;
+        }
+        .frosting {
+            width: 160px;
+            height: 20px;
+            background: #fff0f5;
+            border-radius: 5px;
+            position: absolute;
+            top: -10px;
+            left: -5px;
+        }
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: #fff;
+            position: absolute;
+            top: -50px;
+            left: 70px;
+        }
+        .flame {
+            width: 15px;
+            height: 25px;
+            background: #ff9900;
+            border-radius: 50% 50% 35% 35%;
+            position: absolute;
+            top: -65px;
+            left: 67px;
+            animation: flicker 0.1s infinite alternate;
+            cursor: pointer;
+        }
+
+        /* Final Message */
+        .final-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: url('https://www.transparenttextures.com/patterns/cream-paper.png'), #fff;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            opacity: 0;
+            pointer-events: none;
+            max-width: 300px;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes moveBg {
+            0% { transform: translate(0,0); }
+            100% { transform: translate(-50%,-50%); }
+        }
+        @keyframes float {
+            0% { transform: translate(0, 100vh) rotate(0deg); }
+            100% { transform: translate(100vw, -100vh) rotate(360deg); }
+        }
+        @keyframes flicker {
+            from { transform: scale(1) rotate(-2deg); }
+            to { transform: scale(1.1) rotate(2deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="game-bg"></div>
+    <div class="emoji-container" id="emojis"></div>
+
+    <div class="card-container">
+        <div class="card">
+            <div class="card-cover">
+                <h2 style="font-family: 'Comic Sans MS', cursive; color: white;">Open Me!</h2>
+            </div>
+            <div class="card-inside">
+                <h1 style="font-family: 'Comic Sans MS', cursive; margin-bottom: 15px;">Happy Birthday Jatin! 🎉</h1>
+                <p style="font-family: 'Brush Script MT', cursive; margin: 5px 0;">May your day be filled with joy!</p>
+                <p style="font-family: 'Brush Script MT', cursive; margin: 5px 0;">God bless you always</p>
+                <p style="font-family: 'Brush Script MT', cursive; margin: 5px 0;">Stay blessed & prosperous</p>
+                <p style="font-family: 'Brush Script MT', cursive; margin: 5px 0;">Keep shining bright! ✨</p>
+                <div class="close-text" style="opacity:0; margin-top:15px; font-family: 'Comic Sans MS', cursive; color: #666;">
+                    Tap to make a wish...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cake-container">
+        <div class="cake">
+            <div class="frosting"></div>
+            <div class="cake-base"></div>
+            <div class="candle"></div>
+            <div class="flame"></div>
+        </div>
+        <p style="text-align:center;color:white;margin-top:20px;">Blow out the candle to make a wish!</p>
+        <p class="hint-text" style="opacity:0;color:#666;text-align:center;margin-top:10px;font-size:12px;">(Tap the flame!)</p>
+    </div>
+
+    <div class="final-message">
+        <h2 style="font-family: 'Comic Sans MS', cursive;">🎂 Happy Birthday! 🎉</h2>
+        <p style="font-family: 'Brush Script MT', cursive;">Your wish has been received by the universe!</p>
+        <p style="font-family: 'Brush Script MT', cursive;">May all your dreams come true 🌟</p>
+    </div>
+
+    <button id="musicBtn" style="position:fixed;top:10px;right:10px;background:none;border:none;font-size:24px;cursor:pointer;">🔇</button>
+
+    <script>
+        // Initialization
+        let musicEnabled = false;
+        const bgMusic = new Audio('bg.mp3');
+        
+        // Show loading alert
+        alert("Enable music for full experience! 🎵");
+
+        // Create background emojis
+        const emojis = ['⚔️','🛡️','🎮','🎲','🏹','🔫','💣','🎯','🏆','🎲'];
+        const container = document.getElementById('emojis');
+        for(let i=0; i<100; i++) {
+            const el = document.createElement('div');
+            el.className = 'emoji';
+            el.style.left = Math.random() * 100 + '%';
+            el.style.top = Math.random() * 100 + '%';
+            el.style.animationDelay = Math.random() * 8 + 's';
+            el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+            container.appendChild(el);
+        }
+
+        // Loading screen timeout
+        setTimeout(() => {
+            document.querySelector('.loading-screen').style.display = 'none';
+        }, 2000);
+
+        // Card click handler
+        document.querySelector('.card-container').addEventListener('click', () => {
+            const card = document.querySelector('.card');
+            if(!card.classList.contains('open')) {
+                card.classList.add('open');
+                confetti({
+                    particleCount: 50,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    gravity: 1.2
+                });
+                setTimeout(() => {
+                    document.querySelector('.close-text').style.opacity = 0.7;
+                }, 3000);
+            } else {
+                document.querySelector('.card-container').style.opacity = 0;
+                document.querySelector('.cake-container').style.opacity = 1;
+                document.querySelector('.cake-container').style.pointerEvents = 'all';
+                
+                setTimeout(() => {
+                    document.querySelector('.hint-text').style.opacity = 0.5;
+                }, 3000);
+            }
+        });
+
+        // Candle interaction
+        document.querySelector('.flame').addEventListener('click', () => {
+            // Extinguish candle
+            document.querySelector('.flame').style.animation = 'none';
+            document.querySelector('.flame').style.transform = 'scale(0)';
+            
+            setTimeout(() => {
+                document.querySelector('.cake-container').style.opacity = 0;
+                document.querySelector('.final-message').style.opacity = 1;
+                
+                // Final confetti
+                confetti({
+                    particleCount: 100,
+                    spread: 150,
+                    origin: { y: 0.6 }
+                });
+            }, 500);
+        });
+
+        // Music control
+        document.getElementById('musicBtn').addEventListener('click', () => {
+            musicEnabled = !musicEnabled;
+            document.getElementById('musicBtn').textContent = musicEnabled ? '🔊' : '🔇';
+            if(musicEnabled) {
+                bgMusic.play();
+                bgMusic.loop = true;
+            } else {
+                bgMusic.pause();
+            }
+        });
+    </script>
+</body>
+</html>
