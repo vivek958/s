@@ -139,7 +139,7 @@
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
         }
 
-        /* Birthday Card - INCREASED SIZE */
+        /* Birthday Card - FIXED OVERFLOW */
         .card-container {
             position: fixed;
             top: 50%;
@@ -154,7 +154,7 @@
         .card {
             position: relative;
             width: clamp(340px, 90vw, 480px);
-            height: clamp(280px, 75vw, 360px);
+            height: clamp(300px, 80vw, 400px);
             transform-style: preserve-3d;
             transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
@@ -201,8 +201,9 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .card.open .card-cover {
@@ -217,29 +218,33 @@
         .card-inside h1 {
             font-family: 'Pacifico', cursive;
             color: #c62828;
-            font-size: clamp(1.6rem, 6vw, 2.2rem);
-            margin-bottom: 1.2rem;
+            font-size: clamp(1.5rem, 5.5vw, 2rem);
+            margin-bottom: 1rem;
+            margin-top: 0.5rem;
             text-align: center;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .card-inside p {
             font-family: 'Dancing Script', cursive;
-            font-size: clamp(1rem, 4vw, 1rem);
-            margin: 0.5rem 0;
+            font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+            margin: 0.4rem 0;
             color: #555;
             text-align: center;
-            line-height: 1.7;
+            line-height: 1.6;
+            flex-shrink: 0;
         }
 
         .close-text {
             opacity: 0;
-            margin-top: 1.2rem;
+            margin-top: 1rem;
             font-family: 'Montserrat', sans-serif;
             color: #888;
-            font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+            font-size: clamp(0.85rem, 3.5vw, 1rem);
             transition: opacity 1s ease-in;
             animation: pulse 2s ease-in-out infinite;
+            flex-shrink: 0;
         }
 
         /* Cake */
@@ -360,7 +365,7 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
-        /* Final Message - SIMPLIFIED IMAGE */
+        /* Final Message - HORIZONTAL IMAGE */
         .final-message {
             position: fixed;
             top: 50%;
@@ -374,7 +379,7 @@
             opacity: 0;
             pointer-events: none;
             max-width: 90vw;
-            width: 450px;
+            width: 550px;
             max-height: 90vh;
             overflow-y: auto;
             transition: opacity 0.8s ease-out;
@@ -398,8 +403,12 @@
 
         .final-message img {
             margin-top: 1.8rem;
-            max-width: 100%;
+            width: 100%;
+            max-width: 500px;
             height: auto;
+            max-height: 280px;
+            object-fit: cover;
+            object-position: center;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: transform 0.3s ease;
@@ -511,8 +520,17 @@
 
         /* Responsive adjustments */
         @media (max-width: 480px) {
+            .card {
+                height: clamp(320px, 85vw, 420px);
+            }
             .card-inside p {
                 font-size: 1rem;
+            }
+            .final-message {
+                width: 95vw;
+            }
+            .final-message img {
+                max-height: 200px;
             }
         }
 
@@ -808,4 +826,3 @@
     </script>
 </body>
 </html>
-
