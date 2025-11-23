@@ -139,7 +139,7 @@
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
         }
 
-        /* Birthday Card */
+        /* Birthday Card - INCREASED SIZE */
         .card-container {
             position: fixed;
             top: 50%;
@@ -153,8 +153,8 @@
 
         .card {
             position: relative;
-            width: clamp(300px, 90vw, 400px);
-            height: clamp(240px, 70vw, 300px);
+            width: clamp(340px, 90vw, 480px);
+            height: clamp(280px, 75vw, 360px);
             transform-style: preserve-3d;
             transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
@@ -177,7 +177,7 @@
 
         .card-cover::before {
             content: '🎁';
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
             animation: bounce 2s infinite;
         }
@@ -185,7 +185,7 @@
         .card-cover h2 {
             font-family: 'Pacifico', cursive;
             color: white;
-            font-size: clamp(1.2rem, 5vw, 1.8rem);
+            font-size: clamp(1.4rem, 5.5vw, 2rem);
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
         }
 
@@ -196,7 +196,7 @@
             background: linear-gradient(135deg, #fff8e1 0%, #ffffff 100%);
             transform: translateZ(-2px);
             border-radius: 15px;
-            padding: clamp(1.2rem, 5vw, 2.2rem);
+            padding: clamp(1.5rem, 5vw, 2.5rem);
             box-shadow: inset 0 0 30px rgba(198, 40, 40, 0.1);
             display: none;
             flex-direction: column;
@@ -217,7 +217,7 @@
         .card-inside h1 {
             font-family: 'Pacifico', cursive;
             color: #c62828;
-            font-size: clamp(1.4rem, 5.5vw, 2rem);
+            font-size: clamp(1.6rem, 6vw, 2.2rem);
             margin-bottom: 1.2rem;
             text-align: center;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
@@ -225,8 +225,8 @@
 
         .card-inside p {
             font-family: 'Dancing Script', cursive;
-            font-size: clamp(1.05rem, 4.2vw, 1.35rem);
-            margin: 0.4rem 0;
+            font-size: clamp(1.1rem, 4.5vw, 1.45rem);
+            margin: 0.5rem 0;
             color: #555;
             text-align: center;
             line-height: 1.7;
@@ -237,7 +237,7 @@
             margin-top: 1.2rem;
             font-family: 'Montserrat', sans-serif;
             color: #888;
-            font-size: clamp(0.85rem, 3.5vw, 1rem);
+            font-size: clamp(0.9rem, 3.5vw, 1.05rem);
             transition: opacity 1s ease-in;
             animation: pulse 2s ease-in-out infinite;
         }
@@ -360,7 +360,7 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
-        /* Final Message */
+        /* Final Message - SIMPLIFIED IMAGE */
         .final-message {
             position: fixed;
             top: 50%;
@@ -396,27 +396,17 @@
             line-height: 1.7;
         }
 
-        .image-wrapper {
+        .final-message img {
             margin-top: 1.8rem;
-            width: 100%;
-            max-width: 380px;
-            height: 320px;
+            max-width: 100%;
+            height: auto;
             border-radius: 15px;
-            overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: transform 0.3s ease;
         }
 
-        .image-wrapper:hover {
+        .final-message img:hover {
             transform: scale(1.02);
-        }
-
-        .final-message img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
         }
 
         /* Music Button */
@@ -524,9 +514,6 @@
             .card-inside p {
                 font-size: 1rem;
             }
-            .image-wrapper {
-                height: 280px;
-            }
         }
 
         /* Accessibility */
@@ -600,9 +587,7 @@
         <p>Excel in all your school adventures</p>
         <p>Shine bright in JYEP and beyond! 🌟</p>
         <p>May all your dreams come true 💫</p>
-        <div class="image-wrapper">
-            <img src="img.jpg" alt="Special birthday photo" loading="lazy">
-        </div>
+        <img src="img.jpg" alt="Special birthday photo">
     </div>
 
     <!-- Music Button -->
