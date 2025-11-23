@@ -365,7 +365,7 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
-        /* Final Message - HORIZONTAL IMAGE */
+        /* Final Message - ROTATED IMAGE */
         .final-message {
             position: fixed;
             top: 50%;
@@ -403,19 +403,16 @@
 
         .final-message img {
             margin-top: 1.8rem;
-            width: 100%;
-            max-width: 500px;
+            max-width: 100%;
             height: auto;
-            max-height: 280px;
-            object-fit: cover;
-            object-position: center;
+            transform: rotate(-90deg);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: transform 0.3s ease;
         }
 
         .final-message img:hover {
-            transform: scale(1.02);
+            transform: rotate(-90deg) scale(1.02);
         }
 
         /* Music Button */
@@ -528,9 +525,6 @@
             }
             .final-message {
                 width: 95vw;
-            }
-            .final-message img {
-                max-height: 200px;
             }
         }
 
